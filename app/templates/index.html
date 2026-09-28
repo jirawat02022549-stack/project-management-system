@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,9 +14,9 @@
                 <p data-i18n="app_subtitle">Modern team project management</p>
             </div>
             <div style="display: flex; gap: 10px; align-items: center;">
-                <select id="languageSelector" style="padding: 8px 12px; border-radius: 4px; border: 1px solid #ddd; cursor: pointer;">
-                    <option value="en">English</option>
+                <select id="languageSelector" aria-label="Language">
                     <option value="th">ไทย</option>
+                    <option value="en">English</option>
                 </select>
                 <button id="logoutBtn" class="secondary hidden" data-i18n="logout">Logout</button>
             </div>
@@ -32,15 +32,15 @@
                     </div>
 
                     <form id="loginForm">
-                        <input type="email" id="loginEmail" placeholder="Email" data-i18n="email" required />
-                        <input type="password" id="loginPassword" placeholder="Password" data-i18n="password" required />
+                        <input type="email" id="loginEmail" placeholder="Email" data-i18n-placeholder="email" required />
+                        <input type="password" id="loginPassword" placeholder="Password" data-i18n-placeholder="password" required />
                         <button type="submit" data-i18n="login">Login</button>
                     </form>
 
                     <form id="registerForm" class="hidden">
-                        <input type="text" id="registerName" placeholder="Full name" data-i18n="full_name" required />
-                        <input type="email" id="registerEmail" placeholder="Email" data-i18n="email" required />
-                        <input type="password" id="registerPassword" placeholder="Password" data-i18n="password" required />
+                        <input type="text" id="registerName" placeholder="Full name" data-i18n-placeholder="full_name" required />
+                        <input type="email" id="registerEmail" placeholder="Email" data-i18n-placeholder="email" required />
+                        <input type="password" id="registerPassword" placeholder="Password" data-i18n-placeholder="password" required />
                         <button type="submit" data-i18n="create_account">Create account</button>
                     </form>
                 </div>
@@ -70,8 +70,8 @@
                     <section class="panel">
                         <h3 data-i18n="create_project">Create Project</h3>
                         <form id="projectForm">
-                            <input type="text" id="projectName" placeholder="Project name" data-i18n="project_name" required />
-                            <textarea id="projectDescription" placeholder="Project description" data-i18n="project_description"></textarea>
+                            <input type="text" id="projectName" placeholder="Project name" data-i18n-placeholder="project_name" required />
+                            <textarea id="projectDescription" placeholder="Project description" data-i18n-placeholder="project_description"></textarea>
                             <select id="projectStatus">
                                 <option value="active" data-i18n="active_status">Active</option>
                                 <option value="paused" data-i18n="paused_status">Paused</option>
@@ -84,9 +84,9 @@
                     <section class="panel">
                         <h3 data-i18n="create_task">Create Task</h3>
                         <form id="taskForm">
-                            <select id="taskProjectId" data-i18n="no_projects_available"></select>
-                            <input type="text" id="taskTitle" placeholder="Task title" data-i18n="task_title" required />
-                            <textarea id="taskDescription" placeholder="Task description" data-i18n="task_description"></textarea>
+                            <select id="taskProjectId"></select>
+                            <input type="text" id="taskTitle" placeholder="Task title" data-i18n-placeholder="task_title" required />
+                            <textarea id="taskDescription" placeholder="Task description" data-i18n-placeholder="task_description"></textarea>
                             <div class="inline-row">
                                 <select id="taskStatus">
                                     <option value="todo" data-i18n="todo_status">Todo</option>
@@ -121,16 +121,14 @@
 
     <script src="/static/js/i18n.js"></script>
     <script src="/static/js/app.js"></script>
-    
     <script>
-        // Language switcher
-        document.getElementById('languageSelector').addEventListener('change', (e) => {
-            i18n.setLanguage(e.target.value);
-            document.getElementById('languageSelector').value = i18n.getLanguage();
+        document.addEventListener('DOMContentLoaded', () => {
+            const languageSelector = document.getElementById('languageSelector');
+            languageSelector.value = i18n.getLanguage();
+            languageSelector.addEventListener('change', (event) => {
+                i18n.setLanguage(event.target.value);
+            });
         });
-
-        // Set current language on load
-        document.getElementById('languageSelector').value = i18n.getLanguage();
     </script>
 </body>
 </html>
