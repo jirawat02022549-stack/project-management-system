@@ -9,7 +9,7 @@ Base = declarative_base()
 
 
 def init_db():
-    from app.models import User, Project, Task, ProjectMember  # noqa: F401
+    from app.models import User, Project, Task  # noqa: F401
     Base.metadata.create_all(bind=engine)
 
 
