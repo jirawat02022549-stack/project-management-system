@@ -1,19 +1,18 @@
-// i18n Management for ProjectFlow
-
 class I18n {
   constructor() {
-    this.currentLanguage = localStorage.getItem('language') || 'en';
+    this.currentLanguage = localStorage.getItem('language') || 'th';
     this.translations = {};
   }
 
   async init() {
     try {
       const response = await fetch(`/static/locales/${this.currentLanguage}.json`);
+      if (!response.ok) throw new Error(`Translation load failed: ${response.status}`);
       this.translations = await response.json();
       document.documentElement.lang = this.currentLanguage;
+      this.updatePageText();
     } catch (error) {
       console.error('Failed to load translations:', error);
-      this.translations = {};
     }
   }
 
@@ -21,32 +20,19 @@ class I18n {
     return this.translations[key] || key;
   }
 
-  setLanguage(lang) {
-    this.currentLanguage = lang;
-    localStorage.setItem('language', lang);
-    this.init();
-    this.updatePageText();
+  async setLanguage(language) {
+    this.currentLanguage = language;
+    localStorage.setItem('language', language);
+    await this.init();
   }
 
   updatePageText() {
-    // Update all elements with data-i18n attribute
-    document.querySelectorAll('[data-i18n]').forEach((el) => {
-      const key = el.getAttribute('data-i18n');
-      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-        el.placeholder = this.t(key);
-      } else if (el.tagName === 'OPTION') {
-        el.textContent = this.t(key);
-      } else {
-        el.textContent = this.t(key);
-      }
+    document.querySelectorAll('[data-i18n]').forEach((element) => {
+      element.textContent = this.t(element.dataset.i18n);
     });
 
-    // Update select options
-    document.querySelectorAll('select option').forEach((option) => {
-      const key = option.getAttribute('data-i18n');
-      if (key) {
-        option.textContent = this.t(key);
-      }
+    document.querySelectorAll('[data-i18n-placeholder]').forEach((element) => {
+      element.placeholder = this.t(element.dataset.i18nPlaceholder);
     });
   }
 
@@ -55,12 +41,8 @@ class I18n {
   }
 }
 
-// Create global i18n instance
 const i18n = new I18n();
 
-// Initialize on page load
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => i18n.init().then(() => i18n.updatePageText()));
-} else {
-  i18n.init().then(() => i18n.updatePageText());
-}
+window.addEventListener('DOMContentLoaded', () => {
+  i18n.init();
+});

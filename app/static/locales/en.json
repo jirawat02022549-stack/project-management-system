@@ -23,9 +23,6 @@
   "add_task": "Add Task",
   "projects": "Projects",
   "tasks": "Tasks",
-  "status": "Status",
-  "priority": "Priority",
-  "due_date": "Due date",
   "active_status": "Active",
   "paused_status": "Paused",
   "completed_status": "Completed",
@@ -36,8 +33,5 @@
   "low_priority": "Low",
   "medium_priority": "Medium",
   "high_priority": "High",
-  "no_projects_yet": "No projects yet",
-  "no_tasks_yet": "No tasks yet",
-  "no_projects_available": "No projects available",
-  "language": "Language"
+  "no_projects_available": "No projects available"
 }
